@@ -42,9 +42,10 @@ router.get('/:id/steps', (req, res) => {
     }
   })
   .catch(err => {
-    res.status(500).json({ message: 'Failed to get steps' });
+    res.status(500).json({ message: 'Failed to get steps', error: err });
   });
 });
+
 
 router.post('/', (req, res) => {
   const schemeData = req.body;
@@ -113,5 +114,15 @@ router.delete('/:id', (req, res) => {
     res.status(500).json({ message: 'Failed to delete scheme' });
   });
 });
+
+// this is just get a list of all steps, regardless of the scheme
+router.get('/stepsdata', (req, res) => {
+  Schemes.allStepsData()
+    .then(steps => {
+      res.json(steps);
+    })
+    .catch(err => res.status(500).json({error: err}));
+});
+
 
 module.exports = router;
